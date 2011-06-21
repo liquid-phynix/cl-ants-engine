@@ -1,0 +1,4 @@
+add cl-vis ans cl-ants-engine to asdf, so that you can load it with (require :engine)
+then start the engine with:
+(in-package :engine)
+(start-engine :players 1 :ants-per-player 1 :food 1)
