@@ -8,7 +8,9 @@
 (in-package :engine)
 
 (defparameter *debug* t)
-(defparameter *board* nil) 
+(defparameter *board* nil)
+(defparameter *dview* nil)
+(defparameter *scale* 0)
 
 (deftype index () 'fixnum)
 

@@ -8,7 +8,8 @@
   ((my-ants	:accessor my-ants	:initform nil)
    (player-id   :accessor player-id	:initarg :player-id)
    (player-b-id :accessor player-b-id   :initarg :player-b-id)
-   (target 	:accessor target)))
+   (target 	:accessor target)
+   (list-to-screen :accessor list-to-screen :initform nil)))
 
 (defmethod len ((c dummy-player))
   (length (my-ants c)))
@@ -18,6 +19,7 @@
           (player-id c) (player-b-id c) (len c)))
 
 (defmethod gen-ant-directions ((c dummy-player))
+  (setf (list-to-screen c) nil)
 ;  (dump-ht (food *board*))
   (loop for row being the hash-keys in (food *board*) using (hash-value column)
        do
@@ -31,10 +33,13 @@
 
   (loop for ant across (my-ants c)
        for ant-index from 0
+       do
+       (push `(,(struct-r-c-row ant) ,(struct-r-c-col ant) ,sdl::*red*) (list-to-screen c))
        when (= ant-index 0)
-       collect (dir-to-target (struct-r-c-row ant) (struct-r-c-col ant) (first (target c)) (second (target c)))
+       collect (dir-to-target (struct-r-c-row ant) (struct-r-c-col ant) (first (target c)) (second (target c))) into directions
        else
-       collect :c))
+       collect :c into directions
+       finally (return directions)))
 
 ;; (defmethod gen-ant-directions ((c dummy-player))
 ;;   (loop repeat (len c)

@@ -209,13 +209,24 @@
 	  ;; when (= index 1)
 	  ;; do (vis:put-glyph col row sdl::*white* ))))
 
+(defun per-user-plot ()
+  (let ((cols (cols *board*)))
+    (print "in per-user-plot")
+    (print cols)
+    (loop for player in (players *board*) do
+	 (loop for (row col color) in (list-to-screen player) do
+;	      (vis:put-glyph (+ col (* cols *scale*)) row color)
+	      (vis:put-glyph col row color)
+
+))))
+
 (defun diplay-player-stats (rows cols scale players)
   (declare (ignore rows))
   (loop for player in players
         with s-x-c = 0
         when player do
-        (vis:put-text (* 2 scale s-x-c)
-                      (* scale cols)
+        (vis:put-text (* scale cols)
+                      (* 2 scale s-x-c)
                       (with-output-to-string (s) (format s "p-~d:" (player-id player)))
                       :val (len player)
                       :j :right)
